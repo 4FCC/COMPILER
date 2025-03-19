@@ -2,43 +2,61 @@
 
 ## General
 
-- Actualmente, no se tiene nada implementado en el frontend.
-- El traslado del backend de Python a Java aún no está funcionando correctamente.
-- En palabras del ingeniero se necesita usar *spring boot*
+El objetivo es desarrollar un **frontend** que simule una **consola interactiva**, donde los usuarios puedan escribir un texto, enviarlo al **backend**, recibir una respuesta procesada y ejecutar código de un mini lenguaje de programación.
+
+- El traslado del **backend** de **Python** a **Java** aún no funciona correctamente.
+- Según el ingeniero, se debe usar **Spring Boot** para el backend.
+
+---
 
 ## Frontend
 
-> Para correr el frontend de Python, usa estos comandos:
-> ```
-> cd frontend
-> uvicorn main:app --reload
-> ```
+### Instalación de dependencias
+```sh
+npm install axios
+```
 
-La idea es desarrollar un frontend que se asemeje a una consola. En esta consola, los usuarios podrán escribir un texto que será enviado al backend. El backend analizará este texto y devolverá el código correspondiente en ejecución. En resumen, el objetivo es crear un mini lenguaje de programación y hacerlo funcionar.
+### Ejecución del frontend (Python)
+```sh
+cd frontend
+npm run dev
+```
 
-*Una pequeña recomendacion de como se debe de ver:* https://www.onlinegdb.com/
+---
 
 ## Backend
 
-> Para correr el backend de Python, usa estos comandos después de activar el entorno virtual `.venv`:
-> ```
-> cd backend
-> uvicorn main:app --reload
-> ```
+### Instalación de dependencias
+```sh
+pip install fastapi uvicorn pydantic
+```
 
-De momento, el progreso en el backend es el siguiente:
+### Ejecución del backend (Python)
+```sh
+# Activar el entorno virtual
+source .venv/Scripts/activate
 
-### Código fuente
-- [x] **Analizador léxico**  
-- [ ] **Analizador sintáctico**  
-- [ ] **Analizador semántico**  
+# Moverse al directorio del backend
+cd backend
 
-### Código objeto
-- [ ] **Generador de código intermedio**  
-- [ ] **Optimizador**  
-- [ ] **Generador de código objeto**
+# Ajustar la variable de entorno para los scripts de Python
+export PATH=$PATH:$HOME/AppData/Roaming/Python/Python313/Scripts
 
+# Iniciar el servidor
+uvicorn main:app --reload
+```
 
+### Estado del desarrollo
+
+#### Estado
+- [x] **Analizador léxico**  *(Completado)*
+- [ ] **Analizador sintáctico** *(En desarrollo)*
+- [ ] **Analizador semántico** *(Pendiente)*
+
+#### 🔹 Código objeto
+- [ ] **Generador de código intermedio** *(Pendiente)*
+- [ ] **Optimizador** *(Pendiente)*
+- [ ] **Generador de código objeto** *(Pendiente)*
 
 ### Y un dibujito pa no perder la motivasao (OwO)
 
