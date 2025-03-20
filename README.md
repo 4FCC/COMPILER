@@ -4,8 +4,7 @@
 
 El objetivo es desarrollar un **frontend** que simule una **consola interactiva**, donde los usuarios puedan escribir un texto, enviarlo al **backend**, recibir una respuesta procesada y ejecutar código de un mini lenguaje de programación.
 
-- El traslado del **backend** de **Python** a **Java** aún no funciona correctamente.
-- Según el ingeniero, se debe usar **Spring Boot** para el backend.
+**Mas informacion**: en la carpeta .docs junto a video de prueba del funcionamiento del proyecto.
 
 ---
 
@@ -49,23 +48,25 @@ uvicorn main:app --reload
 ### Estado del desarrollo
 
 #### Estado
-- [x] **Analizador léxico**  *(Completado)*
-- [ ] **Analizador sintáctico** *(En desarrollo)*
-- [ ] **Analizador semántico** *(Pendiente)*
+- [x] Analizador léxico
+- [ ] Analizador sintáctico
+- [ ] Analizador semántico
 
 #### 🔹 Código objeto
-- [ ] **Generador de código intermedio** *(Pendiente)*
-- [ ] **Optimizador** *(Pendiente)*
-- [ ] **Generador de código objeto** *(Pendiente)*
+- [ ] Generador de código intermedio
+- [ ] Optimizador
+- [ ] Generador de código objeto
 
 ### Y un dibujito pa no perder la motivasao (OwO)
 
+        ¡¡¡ CHAMBEA PAPU !!!
+
 ⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷
 ⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇
-⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽ 
+⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽
 ⡗⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐⣕⢕
 ⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕
-⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕  ¡¡¡ CHAMBEA PAPU !!!
+⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕
 ⡝⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰⢗⢄
 ⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕
 ⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿

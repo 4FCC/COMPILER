@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
-import dragonImg from "./assets/Tohru_29.png";
+
+// import ImgLogo from "./assets/dmaid.png";
+
 import './App.css';
 
 function App() {
@@ -12,27 +14,32 @@ function App() {
       const response = await axios.post("http://localhost:8000/api/v1/analizador_lexico", { codigo });
       setResultado(JSON.stringify(response.data, null, 2));
     } catch (error) {
-      setResultado("❌ Error: Problemas técnicos, revisa la consola.");
-      console.error("Error al analizar el código:", error);
+      setResultado("ERROR : Problemas técnicos con el backend");
+      console.error("ERROR al analizar el código:", error);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-6 space-y-6">
-      {/* Imagen del Dragón */}
-      {dragonImg ? (
+
+      {/* Imagen del Dragón 
+
+      {ImgLogo ? (
         <img 
-        src={dragonImg} 
+        src={ImgLogo} 
         alt="Dragón" 
         className="mb-4 animate-pulse"
-        style={{ width: "30%", height: "auto", maxWidth: "5000px", maxHeight: "5000px" }}
+        style={{ width: "80%", height: "auto", maxWidth: "5000px", maxHeight: "5000px" }}
       />
+
       ) : (
-        <p className="text-red-500">⚠️ Imagen no encontrada</p>
+        <p className="text-red-500">Imagen no encontrada</p>
       )}
       
+      */}
+
       {/* Título */}
-      <h1 className="text-4xl font-bold text-green-400 drop-shadow-lg">Analizador Léxico</h1>
+      <h1 className="text-4xl font-bold text-green-400 drop-shadow-lg">Analizador Léxico `(-_o)´</h1>
       
       {/* Área de código */}
       <div className="w-full max-w-2xl">
@@ -49,7 +56,7 @@ function App() {
         className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl transition duration-300 transform hover:scale-105 shadow-lg"
         onClick={analizarCodigo}
       >
-        🏆 Ejecutar Código
+        Ejecutar Código
       </button>
 
       {/* Resultado */}
