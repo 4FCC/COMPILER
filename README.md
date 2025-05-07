@@ -11,11 +11,13 @@ El objetivo es desarrollar un **frontend** que simule una **consola interactiva*
 ## Frontend
 
 ### Instalación de dependencias
+
 ```sh
 npm install axios
 ```
 
 ### Ejecución del frontend (Python)
+
 ```sh
 cd frontend
 npm run dev
@@ -26,11 +28,13 @@ npm run dev
 ## Backend
 
 ### Instalación de dependencias
+
 ```sh
 pip install fastapi uvicorn pydantic
 ```
 
 ### Ejecución del backend (Python)
+
 ```sh
 # Activar el entorno virtual
 source .venv/Scripts/activate
@@ -48,16 +52,18 @@ uvicorn main:app --reload
 ### Estado del desarrollo
 
 #### Estado
+
 - [x] Analizador léxico
 - [ ] Analizador sintáctico
 - [ ] Analizador semántico
 
 #### 🔹 Código objeto
+
 - [ ] Generador de código intermedio
 - [ ] Optimizador
 - [ ] Generador de código objeto
 
-### Y un dibujito pa no perder la motivasao (OwO)
+### Y un dibujito pa no perder la motivasao (UwU)
 
         ¡¡¡ CHAMBEA PAPU !!!
 
@@ -74,5 +80,4 @@ uvicorn main:app --reload
 ⣷⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟
 ⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠
 ⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙
-⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣ 
-
+⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣
