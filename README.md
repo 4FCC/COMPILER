@@ -63,7 +63,7 @@ uvicorn main:app --reload
 - [ ] Optimizador
 - [ ] Generador de código objeto
 
-### Y un dibujito pa no perder la motivasao (UwU)
+### Y un dibujito pa no perder la motivasao (IM THE REAL SLIM SHADY)
 
         ¡¡¡ CHAMBEA PAPU !!!
 
