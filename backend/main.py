@@ -16,6 +16,9 @@ app.add_middleware(
 class CodigoFuente(BaseModel):
     codigo: str
 
+GRUPO = 9
+AGRUPADORES_VALIDOS = {'{': '}'}
+
 TOKEN_PATTERNS = {
     'PALABRA_RESERVADA': r'\b(int|float|bool|char|string|if|else|for|while|print|println|EscribirLinea|Escribir|Longitud|aCadena)\b',
     'IDENTIFICADOR': r'\b[a-zA-Z_][a-zA-Z0-9_]*\b',
@@ -23,9 +26,8 @@ TOKEN_PATTERNS = {
     'OPERADOR_ARITMETICO': r'(\+\+|--|[+\-*/^#])',
     'OPERADOR_RELACIONAL': r'(==|!=|<=|>=|<|>)',
     'OPERADOR_LOGICO': r'(\|\||&&|!)',
-    'ASIGNACION': r'(==|<-|=>|=)',
+    'ASIGNACION': r'(==|<-|=>)',
     'DELIMITADOR': r'[;{}\[\]\(\)]',
-    'COMENTARIO': r'//.*|/\*[\s\S]*?\*/',
     'CADENA': r'"([^"\\]|\\.)*"',
     'CARACTER': r"'.{1}'",
     'ESPACIO': r'\s+'
@@ -33,7 +35,16 @@ TOKEN_PATTERNS = {
 
 TOKEN_REGEX = re.compile('|'.join(f'(?P<{key}>{value})' for key, value in TOKEN_PATTERNS.items()), re.IGNORECASE)
 
+def eliminar_comentarios(codigo: str) -> str:
+    # Quitar comentarios de una línea
+    codigo = re.sub(r'//.*', '', codigo)
+    # Quitar comentarios multilínea
+    codigo = re.sub(r'/\*[\s\S]*?\*/', '', codigo)
+    return codigo
+
 def analizador_lexico(codigo_fuente: str):
+    codigo_fuente = eliminar_comentarios(codigo_fuente)
+
     tokens = []
     tabla_simbolos = []
     errores = []
@@ -45,17 +56,19 @@ def analizador_lexico(codigo_fuente: str):
             if match:
                 tipo_token = match.lastgroup
                 valor = match.group()
-                if tipo_token not in ['COMENTARIO', 'ESPACIO']:
-                    token_info = {
-                        "tipo": tipo_token,
-                        "valor": valor,
-                        "linea": num_linea,
-                        "columna": pos
-                    }
-                    tokens.append(token_info)
-                    if tipo_token == 'IDENTIFICADOR':
-                        if not any(sim['valor'] == valor for sim in tabla_simbolos):
-                            tabla_simbolos.append(token_info)
+                if tipo_token == 'ESPACIO':
+                    pos = match.end()
+                    continue
+                token_info = {
+                    "tipo": tipo_token,
+                    "valor": valor,
+                    "linea": num_linea,
+                    "columna": pos
+                }
+                tokens.append(token_info)
+                if tipo_token == 'IDENTIFICADOR':
+                    if not any(sim['valor'] == valor for sim in tabla_simbolos):
+                        tabla_simbolos.append(token_info)
                 pos = match.end()
             else:
                 errores.append({
@@ -72,24 +85,29 @@ def analizador_lexico(codigo_fuente: str):
         "errores": errores
     }
 
-def es_expresion_valida(tokens):
+def es_expresion_valida(tokens, errores, linea):
     pila = []
     prev = None
     for tok in tokens:
-        if tok['tipo'] in ['NUMERO', 'IDENTIFICADOR']:
-            if prev in ['NUMERO', 'IDENTIFICADOR']:
+        if tok['tipo'] in ['NUMERO', 'IDENTIFICADOR', 'CADENA']:
+            if prev in ['NUMERO', 'IDENTIFICADOR', 'CADENA']:
                 return False
         elif tok['tipo'] == 'OPERADOR_ARITMETICO':
             if prev is None or prev in ['OPERADOR_ARITMETICO']:
                 return False
-        elif tok['valor'] in ['(', '[', '{']:
+        elif tok['valor'] in ['(', '[']:
+            errores.append({
+                "descripcion": f"Agrupador '{tok['valor']}' inválido para grupo 9. Solo se permite '{{}}'.",
+                "linea": linea,
+                "columna": tok['columna']
+            })
+            return False
+        elif tok['valor'] in ['{']:
             pila.append(tok['valor'])
-        elif tok['valor'] in [')', ']', '}']:
-            if not pila:
+        elif tok['valor'] in ['}', ')', ']']:
+            if not pila or AGRUPADORES_VALIDOS.get(pila[-1], '') != tok['valor']:
                 return False
-            abre = pila.pop()
-            if not ((abre == '(' and tok['valor'] == ')') or (abre == '[' and tok['valor'] == ']') or (abre == '{' and tok['valor'] == '}')):
-                return False
+            pila.pop()
         prev = tok['tipo']
     return not pila and prev not in ['OPERADOR_ARITMETICO']
 
@@ -102,7 +120,16 @@ def evaluar_expresion_con_variables(tokens, variables):
                     expr += str(variables[tok['valor']])
                 else:
                     return f"Error: variable '{tok['valor']}' no definida"
-            elif tok['tipo'] == 'NUMERO' or tok['tipo'] == 'DELIMITADOR' or tok['tipo'] == 'OPERADOR_ARITMETICO':
+            elif tok['tipo'] == 'NUMERO':
+                expr += tok['valor']
+            elif tok['tipo'] == 'DELIMITADOR':
+                if tok['valor'] == '{':
+                    expr += '('
+                elif tok['valor'] == '}':
+                    expr += ')'
+                else:
+                    expr += tok['valor']
+            elif tok['tipo'] == 'OPERADOR_ARITMETICO':
                 expr += tok['valor']
         expr = expr.replace('^', '**').replace('#', '%')
         return eval(expr)
@@ -135,6 +162,10 @@ def analizar_sintaxis(codigo: CodigoFuente):
             errores.append({"descripcion": f"Error en asignación en línea {tokens[i]['linea']}."})
             break
 
+        if tokens[i + 1]['valor'] != '=>':
+            errores.append({"descripcion": f"Grupo 9 solo permite '=>' como asignador."})
+            break
+
         nombre_var = tokens[i]['valor']
         j = i + 2
         expresion = []
@@ -146,8 +177,7 @@ def analizar_sintaxis(codigo: CodigoFuente):
             errores.append({"descripcion": f"Falta punto y coma al final de la instrucción en línea {tokens[i]['linea']}."})
             break
 
-        if not es_expresion_valida(expresion):
-            errores.append({"descripcion": f"Expresión inválida en línea {tokens[i]['linea']}."})
+        if not es_expresion_valida(expresion, errores, tokens[i]['linea']):
             break
 
         evaluado = evaluar_expresion_con_variables(expresion, variables)
