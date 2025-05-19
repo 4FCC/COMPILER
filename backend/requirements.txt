@@ -1,4 +1,5 @@
 annotated-types==0.7.0
+antlr4-python3-runtime==4.13.2
 anyio==4.9.0
 certifi==2025.4.26
 click==8.1.8
