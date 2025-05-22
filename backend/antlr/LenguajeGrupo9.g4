@@ -23,3 +23,7 @@ ESPACIO: [ \t\r\n]+ -> skip;
 // Comentarios ignorados
 LINE_COMMENT: '//' ~[\r\n]* -> skip;
 BLOCK_COMMENT: '/*' .*? '*/' -> skip;
+
+// Tokens inválidos explícitos
+PARENTESIS_IZQ: '(' ;
+PARENTESIS_DER: ')' ;

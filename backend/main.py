@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -75,6 +74,16 @@ def analizador_lexico(codigo_fuente: str):
                     "valor": linea[pos]
                 })
                 pos += 1
+
+    # Agregar errores por paréntesis inválidos
+    for t in tokens:
+        if t["valor"] == "(" or t["valor"] == ")":
+            errores.append({
+                "descripcion": f"Agrupador '{t['valor']}' inválido para grupo 9. Solo se permite '{{}}'.",
+                "linea": t["linea"],
+                "columna": t["columna"],
+                "valor": t["valor"]
+            })
 
     return {
         "tokens": tokens,
